@@ -2,52 +2,57 @@ package overridingAndoverloading;
 
 public class Lemon extends Fruit{
 	
-	private String colour;
-	private double weight;
+	protected String country;
+	protected double price;
 	
-	public Lemon() {
-		super();
-		colour = "";
-		weight = 0;
+	public Lemon(String n, String c, double p) {
+		super(n);
+		this.country = c;
+		this.price = p;
+		
 	}
 
-	public Lemon(String n, String c, double w) {
-		super(n);
-		colour = c;
-		weight = w;
-		
-		setInfo(n,c,w);
+	public double unitPrice() {
+		return price;
 	}
-	
-	public void setInfo(String n, String c, double w) {
-		if(name.equals(null))
-			n = " ";
-		else
-			n = name;
-		
-		if(colour.equals(null))
-			colour = "";
-		else
-			c = colour;
-		
-		if(w >= 0)
-			weight = w;
-		else
-			w = 0;
+	public double unitPrice(double tax) {
+		return price*(1+ tax);
 	}
-	
-	public String getColour() {
-		return colour;
-	}
-	
-	public double getWeight() {
-		return weight;
+	public double unitPrice(double tax, double quota) {
+		return price*(1+ tax + quota);
 	}
 	
 	public String toString() {
-		return "Type\t\t\t\t: " + name + 
-			   "\nColour\t\t\t\t: " + colour + 
-			   "\nWeight\t\t\t\t: " + weight + " g";
-			   
+		if (country.equals("Malaysia")) {
+			unitPrice();
+			return super.toString() +
+				       "\nCountry of Origin\t\t: " + country +
+					   "\nOriginal Price\t\t\t: RM" + price +
+					   "No tax imposed in local made fruit" +
+					   "\nActual Price\t\t\t: RM" + unitPrice();
+		
+		}
+			else if (country.equals("Singapore")) {
+			double tax = 0.3; 
+			unitPrice(tax);
+			return super.toString() +
+					"\nCountry of Origin\t\t: " + country +
+					   "\nOriginal Price\t\t\t: RM" + price +
+					   "\nTotal tax\t\t\t: " + (tax*100) +"%" +
+					   "\nActual Price\t\t\t: RM" + unitPrice(tax);
+		}
+		
+			else if (country.equals("Japan")){
+			double tax = 0.4;
+			double quota = 0.1; 
+			unitPrice(tax,quota); 
+			return super.toString() +
+					"\nCountry of Origin\t\t: " + country +
+					   "\nOriginal Price\t\t\t: RM" + price +
+					   "\nTotal tax\t\t\t: " + ((tax+quota)*100) +"%" +
+					   "\nActual Price\t\t\t: RM" + unitPrice(tax,quota);
+
+	}
+		return country;
 	}
 }

@@ -2,53 +2,59 @@ package overridingAndoverloading;
 
 public class Watermelon extends Fruit{
 	
-	private String size;
-	private double sugar;
+	protected String size;
+	protected double sugar;
 	
-	public Watermelon() {
-		super();
-		size = "";
-		sugar = 0;
-	}
-
 	public Watermelon(String n, String S, double s) {
 		super(n);
-		size = S;
-		sugar = s;
+		this.size = S;
+		this.sugar = s;
 		
-		setInfo(n,S,s);
 	}
 	
-	public void setInfo(String n, String S, double s) {
-		if(name.equals(null))
-			n = " ";
-		else
-			n = name;
-		
-		if(size.equals(null))
-			S = "";
-		else
-			S = size;
-		
-		if(s >= 0)
-			s = sugar;
-		else
-			s = 0;
-	}
-	
-	public String getSize() {
-		return size;
-	}
-	
-	public double getSugar() {
+	public double totalSugar() {
 		return sugar;
 	}
-	
-	public String toString() {
-		return "Type\t\t\t\t: " + name + 
-			   "\nSize\t\t\t\t: " + size + 
-			   "\nSugar Content\t\t\t: " + sugar + " g";
+	public double totalSugar(double ratio) {
+		return sugar*(1+ratio);
+	}
+	public double totalSugar(double ratio1, double ratio2) {
+		return sugar*(1+ratio1+ratio2);
+	}
+		
+		public String toString() {
+			if (size.equals("Small")) {
+				totalSugar();
+				return super.toString() +
+					       "\nSize\t\t\t\t: " + size +
+						   "\nAverage Sugar Content\t\t: " + totalSugar() + " mg";
+			
+			}
+				else if (size.equals("Medium")) {
+				double ratio = 0.2; 
+				totalSugar(ratio);
+				return super.toString() +
+						"\nSize\t\t\t\t: " + size +
+						"\nAverage Sugar Content\t\t: " + sugar + " mg"+
+						"\nMedium to small size comparison\t: " + (100+(100*ratio)) +  "%" +
+						"\nActual Sugar Content\t\t: " + totalSugar(ratio) + " mg";
+			}
+			
+				else if (size.equals("Large")){
+					double ratio1 = 0.2;
+					double ratio2 = 0.1;
+					totalSugar(ratio1,ratio2);
+					return super.toString() +
+									"\nSize\t\t\t\t: " + size +
+									"\nAverage Sugar Content\t\t: " + sugar + " mg"+
+									"\nLarge to small size comparison\t: " + (100+(100*(ratio1+ratio2))) + "%" +
+							"\nActual Sugar Content\t\t: " + totalSugar(ratio1,ratio2) + " mg";
+
+		}
+			return size;
+
+		}
 			   
 	}
 
-}
+
